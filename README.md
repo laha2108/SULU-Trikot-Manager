@@ -80,8 +80,10 @@ Für die Verwendung werden benötigt:
 
 Die Erweiterung arbeitet ausschließlich auf den konfigurierten Seiten unter:
 
+```text
 https://hockey.de/admin/*
 https://www.hockey.de/admin/*
+```
 
 ---
 
@@ -89,6 +91,7 @@ https://www.hockey.de/admin/*
 
 Die ZIP-Datei muss zunächst vollständig entpackt werden. Der entpackte Ordner muss mindestens folgende Dateien und Verzeichnisse enthalten:
 
+```text
 SULU-Trikot-Manager/
 ├── icons/
 ├── js/
@@ -106,7 +109,9 @@ SULU-Trikot-Manager/
 1. ZIP-Datei entpacken.
 2. In Chrome folgende Adresse öffnen:
 
+   ```text
    chrome://extensions
+   ```
 
 3. Oben rechts den **Entwicklermodus** aktivieren.
 4. Auf **Entpackte Erweiterung laden** klicken.
@@ -114,14 +119,18 @@ SULU-Trikot-Manager/
 6. Die hockey.de-Seite neu laden.
 7. Bei bereits geöffneter Mannschaftsverwaltung empfiehlt sich ein vollständiges Neuladen mit:
 
+   ```text
    Strg + F5
+   ```
 
 ### Microsoft Edge
 
 1. ZIP-Datei entpacken.
 2. In Edge folgende Adresse öffnen:
 
+   ```text
    edge://extensions
+   ```
 
 3. Den **Entwicklermodus** aktivieren.
 4. Auf **Entpackte Erweiterung laden** klicken.
@@ -135,7 +144,9 @@ Zum Testen kann die Erweiterung als temporäres Add-on geladen werden:
 1. ZIP-Datei entpacken.
 2. In Firefox folgende Adresse öffnen:
 
+   ```text
    about:debugging#/runtime/this-firefox
+   ```
 
 3. Auf **Temporäres Add-on laden** klicken.
 4. Im entpackten Projektordner die Datei `manifest.json` auswählen.
@@ -158,14 +169,21 @@ Ein Trikotsatz kann gespeichert werden, wenn alle vier Farbfelder vollständig d
 
 Die Farbwerte müssen im Hexformat vorliegen:
 
+```text
 #RRGGBB
+```
 
 Beispiel:
+
+```text
 #F7283A
+```
 
 Sind alle vier Farbwerte gültig, erscheint im betreffenden Trikotblock die Schaltfläche:
 
+```text
 Trikotwerte speichern
+```
 
 Beim Speichern werden unter anderem diese Informationen gespeichert:
 
@@ -183,7 +201,9 @@ Existiert bereits ein Satz mit derselben Bezeichnung, fragt die Erweiterung vor 
 
 Sind in einem Trikotblock noch keine Farbwerte definiert, erscheint:
 
+```text
 Trikotsatz abrufen
+```
 
 Nach dem Öffnen der Auswahl kann ein gespeicherter Satz mit **Übernehmen** in den leeren Block eingesetzt werden.
 
@@ -247,7 +267,9 @@ Vor dem Löschen erscheint eine Sicherheitsabfrage.
 
 Der vorgeschlagene Dateiname lautet:
 
+```text
 SULU-Trikotsaetze.json
+```
 
 Ein Export kann beispielsweise verwendet werden für:
 
@@ -267,7 +289,9 @@ Für jeden importierten Datensatz werden Erstellungs- und Änderungszeitpunkt au
 
 Beispiel:
 
+```text
 Gespeichert: 16.10.2026, 12:02
+```
 
 Gleichnamige Trikotsätze werden beim Import aktualisiert.
 
@@ -312,19 +336,25 @@ Die Dress-Grafik dient ausschließlich der visuellen Darstellung der gespeichert
 
 Die Trikotsätze werden im lokalen Speicher der Browser-Erweiterung gespeichert:
 
+```text
 storage.local
+```
 
 Der verwendete Speicherschlüssel lautet:
 
+```text
 hockeyUniformSetsV3
+```
 
 Die Daten werden nicht automatisch zwischen Browsern oder Browserprofilen übertragen. Für einen Wechsel sollte zuvor ein JSON-Export erstellt werden.
 
 Die Erweiterung benötigt die Berechtigung:
 
+```json
 "permissions": [
   "storage"
 ]
+```
 
 Es werden keine Trikotdaten an einen externen Server übertragen.
 
@@ -493,6 +523,93 @@ Die Zeichenfolge im Feld `id` ist eine technische Firefox-Erweiterungs-ID. Sie i
 
 Chrome und Edge ignorieren die Firefox-spezifischen Manifestangaben.
 
+---
+
+## Entwicklung mit Visual Studio Code
+
+### Lokales Git-Repository anlegen
+
+Im Projektordner ein Terminal öffnen:
+
+```bash
+git init
+git add .
+git commit -m "Initial release SULU Trikot-Manager 1.2"
+```
+
+### Repository mit GitHub verbinden
+
+```bash
+git branch -M main
+git remote add origin https://github.com/DEIN-BENUTZERNAME/SULU-Trikot-Manager.git
+git push -u origin main
+```
+
+`DEIN-BENUTZERNAME` muss durch den eigenen GitHub-Benutzernamen ersetzt werden.
+
+Da der Quellcode rechtlichen Nutzungs- und Weitergabebeschränkungen unterliegt, sollte das GitHub-Repository als **privat** angelegt werden.
+
+### Empfohlene `.gitignore`
+
+```gitignore
+*.zip
+*.xpi
+*.crx
+
+.DS_Store
+Thumbs.db
+desktop.ini
+
+.vscode/
+node_modules/
+dist/
+tmp/
+```
+
+### Spätere Änderungen veröffentlichen
+
+```bash
+git add .
+git commit -m "Beschreibung der Änderung"
+git push
+```
+
+---
+
+## Versionierung
+
+Die veröffentlichte Produktversion lautet:
+
+```text
+SULU Trikot-Manager 1.2
+```
+
+Das Feld `version` in der `manifest.json` muss browserkonform numerisch sein.
+
+Beispiel:
+
+```json
+"version": "1.2.14"
+```
+
+Bei jeder Änderung, die als Browser-Update erkannt werden soll, muss die technische Versionsnummer erhöht werden.
+
+---
+
+## Fehlerbehebung
+
+### `Extension context invalidated`
+
+Dieser Fehler kann auftreten, wenn die entpackte Erweiterung neu geladen oder ersetzt wird, während hockey.de noch in einem geöffneten Tab läuft.
+
+Lösung:
+
+1. Erweiterung neu laden.
+2. Zur hockey.de-Seite wechseln.
+3. Seite mit `Strg + F5` vollständig neu laden.
+
+Die Erweiterung fängt diesen Zustand ab und zeigt einen entsprechenden Hinweis an.
+
 ### Button oder Aktionsleisten fehlen
 
 - prüfen, ob die richtige hockey.de-Seite geöffnet ist
@@ -519,10 +636,15 @@ Vor Änderungen am Browserprofil sollte deshalb ein Export erstellt werden.
 
 Zulässig sind ausschließlich Werte im Format:
 
+```text
 #RRGGBB
+```
 
 Beispiel:
+
+```text
 #2685D3
+```
 
 Kurze Hexwerte wie `#FFF` werden nicht akzeptiert.
 
@@ -566,4 +688,4 @@ Weitere Einzelheiten befinden sich in:
 
 Die Verwendung der Erweiterung erfolgt auf eigene Verantwortung. Vor umfangreichen Änderungen oder einem Browserwechsel sollte ein Export der lokal gespeicherten Trikotsätze erstellt werden.
 
-Der SULU Trikot-Manager ist ein offizielles Produkt von hockey.de bzw. dem Deutschen Hockeybund. Namen, Marken und Darstellungen Dritter verbleiben bei den jeweiligen Rechteinhabern.
+Der SULU Trikot-Manager ist kein offizielles Produkt von hockey.de. Namen, Marken und Darstellungen Dritter verbleiben bei den jeweiligen Rechteinhabern.

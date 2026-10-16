@@ -1,0 +1,4 @@
+SULU Trikot-Manager
+Copyright (c) 2026 Lars Hansen. Alle Rechte vorbehalten.
+Jegliche Veränderung ist untersagt.
+Weitergabe nur mit ausdrücklicher Genehmigung durch den Entwickler.

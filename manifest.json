@@ -1,0 +1,53 @@
+{
+  "manifest_version": 3,
+  "name": "SULU Trikot-Manager 1.2",
+  "short_name": "SULU Trikot-Manager",
+  "version": "1.2.14",
+  "description": "Verwaltung, Import/Export von Trikotsätzen",
+  "permissions": [
+    "storage"
+  ],
+  "host_permissions": [
+    "https://hockey.de/admin/*",
+    "https://www.hockey.de/admin/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://hockey.de/admin/*",
+        "https://www.hockey.de/admin/*"
+      ],
+      "js": [
+        "js/core.js",
+        "js/storage.js",
+        "js/ui.js",
+        "js/app.js"
+      ],
+      "css": [
+        "content.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "SULU Trikot-Manager 1.2"
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "sulu-trikot-manager@sulu.local",
+      "strict_min_version": "109.0",
+      "data_collection_permissions": {
+        "required": [
+          "none"
+        ]
+      }
+    }
+  }
+}

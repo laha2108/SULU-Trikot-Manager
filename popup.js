@@ -1,0 +1,1 @@
+(()=>{let a=globalThis.browser||globalThis.chrome;document.getElementById('b').onclick=async()=>{let[t]=await a.tabs.query({active:true,currentWindow:true});if(t?.id)a.tabs.sendMessage(t.id,'show')}})();

@@ -491,7 +491,6 @@ Enthält sämtliche Styles für:
 - Effekte
 - responsive Darstellung
 
----
 
 ## Browser-Kompatibilität
 

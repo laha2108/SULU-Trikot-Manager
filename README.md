@@ -523,6 +523,7 @@ Die Zeichenfolge im Feld `id` ist eine technische Firefox-Erweiterungs-ID. Sie i
 
 Chrome und Edge ignorieren die Firefox-spezifischen Manifestangaben.
 
+---
 
 ## Fehlerbehebung
 

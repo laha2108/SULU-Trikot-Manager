@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>SULU Trikot-Manager – Optionen</title>
+
+    <style>
+        :root {
+            color-scheme: light;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: #172033;
+            background: #f3f5f8;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-width: 320px;
+            margin: 0;
+            background:
+                radial-gradient(circle at top right,
+                    rgba(22, 131, 77, 0.13),
+                    transparent 430px),
+                #f3f5f8;
+        }
+
+        input,
+        button {
+            font: inherit;
+        }
+
+        .options-page {
+            width: min(940px, calc(100% - 40px));
+            margin: 0 auto;
+            padding: 40px 0 28px;
+        }
+
+        .page-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 18px;
+            margin-bottom: 26px;
+        }
+
+        .brand-mark {
+            display: grid;
+            flex: 0 0 auto;
+            width: 56px;
+            height: 56px;
+            place-items: center;
+            border-radius: 16px;
+            color: #ffffff;
+            background:
+                linear-gradient(145deg,
+                    #16834d,
+                    #0e6038);
+            box-shadow:
+                0 10px 24px rgba(18, 112, 65, 0.24);
+            font-size: 28px;
+            font-weight: 800;
+        }
+
+        .product-name,
+        .section-label {
+            margin: 0 0 5px;
+            color: #16834d;
+            font-size: 12px;
+            font-weight: 750;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
+        }
+
+        h1,
+        h2,
+        h3,
+        p {
+            margin-top: 0;
+        }
+
+        h1 {
+            margin-bottom: 8px;
+            color: #101827;
+            font-size: 38px;
+            line-height: 1.05;
+        }
+
+        h2 {
+            margin-bottom: 8px;
+            color: #121a29;
+            font-size: 22px;
+        }
+
+        h3 {
+            margin-bottom: 13px;
+            font-size: 16px;
+        }
+
+        p {
+            margin-bottom: 0;
+            color: #5d677a;
+            line-height: 1.55;
+        }
+
+        .option-card {
+            margin-bottom: 20px;
+            padding: 26px;
+            border: 1px solid #dce2e9;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.97);
+            box-shadow:
+                0 10px 34px rgba(30, 44, 68, 0.07);
+        }
+
+        .option-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 28px;
+        }
+
+        /* Debug-Schalter */
+
+        .switch {
+            position: relative;
+            display: inline-flex;
+            flex: 0 0 auto;
+            width: 56px;
+            height: 32px;
+        }
+
+        .switch input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .switch-slider {
+            position: absolute;
+            inset: 0;
+            cursor: pointer;
+            border-radius: 999px;
+            background: #b7bfcb;
+            transition:
+                background 160ms ease,
+                box-shadow 160ms ease;
+        }
+
+        .switch-slider::before {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #ffffff;
+            box-shadow:
+                0 2px 7px rgba(0, 0, 0, 0.24);
+            content: "";
+            transition: transform 160ms ease;
+        }
+
+        .switch input:checked+.switch-slider {
+            background: #16834d;
+        }
+
+        .switch input:checked+.switch-slider::before {
+            transform: translateX(24px);
+        }
+
+        .switch input:focus-visible+.switch-slider {
+            box-shadow:
+                0 0 0 4px rgba(22, 131, 77, 0.18);
+        }
+
+        /* Auswahl des Teamgeschlechts */
+
+        .debug-settings {
+            margin-top: 24px;
+            padding-top: 22px;
+            border-top: 1px solid #e3e7ed;
+            transition:
+                opacity 160ms ease,
+                filter 160ms ease;
+        }
+
+        .debug-settings.disabled {
+            opacity: 0.48;
+            filter: grayscale(0.35);
+            pointer-events: none;
+        }
+
+        .radio-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .radio-option {
+            display: flex;
+            min-height: 116px;
+            align-items: flex-start;
+            gap: 11px;
+            padding: 16px;
+            cursor: pointer;
+            border: 1px solid #dce2e9;
+            border-radius: 13px;
+            background: #ffffff;
+            transition:
+                border-color 150ms ease,
+                background 150ms ease,
+                box-shadow 150ms ease,
+                transform 150ms ease;
+        }
+
+        .radio-option:hover {
+            transform: translateY(-1px);
+            border-color: #a9b7c6;
+            box-shadow:
+                0 7px 18px rgba(28, 43, 67, 0.07);
+        }
+
+        .radio-option:has(input:checked) {
+            border-color: #16834d;
+            background: #f0faf5;
+            box-shadow:
+                inset 0 0 0 1px #16834d;
+        }
+
+        .radio-option input {
+            flex: 0 0 auto;
+            margin: 3px 0 0;
+            accent-color: #16834d;
+        }
+
+        .radio-content {
+            display: grid;
+            gap: 6px;
+        }
+
+        .radio-content strong {
+            color: #172033;
+            line-height: 1.25;
+        }
+
+        .radio-content small {
+            color: #687387;
+            font-size: 13px;
+            line-height: 1.45;
+        }
+
+        /* Vorschau */
+
+        .preview-card {
+            display: grid;
+            grid-template-columns:
+                minmax(0, 1fr) 250px;
+            align-items: center;
+            gap: 34px;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            margin: 9px 0 12px;
+            padding: 7px 12px;
+            border-radius: 999px;
+            color: #ffffff;
+            background: #16834d;
+            font-size: 13px;
+            font-weight: 750;
+        }
+
+        .status-badge.inactive {
+            color: #4c576a;
+            background: #e5e9ef;
+        }
+
+        .status-description {
+            min-height: 48px;
+        }
+
+        .color-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 11px;
+            margin-top: 22px;
+        }
+
+        .color-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 11px;
+            border: 1px solid #e0e5eb;
+            border-radius: 10px;
+            color: #4f596c;
+            background: #fafbfc;
+            font-size: 13px;
+            font-weight: 650;
+        }
+
+        .color-swatch {
+            display: inline-block;
+            width: 19px;
+            height: 19px;
+            border: 2px solid #111111;
+            border-radius: 5px;
+        }
+
+        .color-swatch.shirt {
+            background: #d71920;
+        }
+
+        .color-swatch.bottom {
+            background: #202a44;
+        }
+
+        .color-swatch.socks {
+            background: #ffffff;
+        }
+
+        .uniform-preview {
+            display: flex;
+            min-height: 390px;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            overflow: hidden;
+            border: 1px solid #e0e5eb;
+            border-radius: 16px;
+            background:
+                linear-gradient(135deg,
+                    #f8fafc,
+                    #e9eef4);
+        }
+
+        .uniform-preview svg {
+            display: block;
+            width: 170px;
+            height: 350px;
+        }
+
+        .save-status {
+            min-height: 24px;
+            color: #16834d;
+            font-size: 13px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .page-footer {
+            display: grid;
+            gap: 3px;
+            margin-top: 14px;
+            color: #7a8495;
+            font-size: 11px;
+            line-height: 1.4;
+            text-align: center;
+        }
+
+        /* Responsive Darstellung */
+
+        @media (max-width: 760px) {
+            .options-page {
+                width: min(100% - 24px, 940px);
+                padding-top: 24px;
+            }
+
+            .radio-grid,
+            .preview-card {
+                grid-template-columns: 1fr;
+            }
+
+            .uniform-preview {
+                order: -1;
+                min-height: 330px;
+            }
+
+            .uniform-preview svg {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .page-header {
+                gap: 12px;
+            }
+
+            .brand-mark {
+                width: 46px;
+                height: 46px;
+                border-radius: 13px;
+                font-size: 23px;
+            }
+
+            .option-card {
+                padding: 19px;
+                border-radius: 14px;
+            }
+
+            .option-heading {
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="options-page">
+        <header class="page-header">
+            <div class="brand-mark" aria-hidden="true">
+                S
+            </div>
+
+            <div>
+                <p class="product-name">
+                    SULU Trikot-Manager 1.2
+                </p>
+
+                <h1>Optionen</h1>
+
+                <p>
+                    Entwickleroptionen und Testdarstellung
+                    des Trikot-Managers.
+                </p>
+            </div>
+        </header>
+
+        <section class="option-card">
+            <div class="option-heading">
+                <div>
+                    <p class="section-label">
+                        Entwickleroptionen
+                    </p>
+
+                    <h2>Debug-Modus</h2>
+
+                    <p>
+                        Überschreibt zu Testzwecken die
+                        automatische Erkennung des
+                        Teamgeschlechts.
+                    </p>
+                </div>
+
+                <label class="switch" aria-label="Debug-Modus aktivieren">
+                    <input type="checkbox" id="debugMode">
+
+                    <span class="switch-slider"></span>
+                </label>
+            </div>
+
+            <div id="debugSettings" class="debug-settings">
+                <h3>Teamdarstellung</h3>
+
+                <div class="radio-grid">
+                    <label class="radio-option">
+                        <input type="radio" name="genderOverride" value="auto">
+
+                        <span class="radio-content">
+                            <strong>
+                                Automatisch erkennen
+                            </strong>
+
+                            <small>
+                                Verwendet das auf hockey.de
+                                erkannte Teamgeschlecht.
+                            </small>
+                        </span>
+                    </label>
+
+                    <label class="radio-option">
+                        <input type="radio" name="genderOverride" value="male">
+
+                        <span class="radio-content">
+                            <strong>
+                                Männlich erzwingen
+                            </strong>
+
+                            <small>
+                                Stellt den Trikotsatz mit
+                                Hose dar.
+                            </small>
+                        </span>
+                    </label>
+
+                    <label class="radio-option">
+                        <input type="radio" name="genderOverride" value="female">
+
+                        <span class="radio-content">
+                            <strong>
+                                Weiblich erzwingen
+                            </strong>
+
+                            <small>
+                                Stellt den Trikotsatz mit
+                                Hockeyrock dar.
+                            </small>
+                        </span>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <section class="option-card preview-card">
+            <div>
+                <p class="section-label">
+                    Vorschau
+                </p>
+
+                <h2>Aktive Testdarstellung</h2>
+
+                <div id="statusBadge" class="status-badge inactive">
+                    Debug-Modus deaktiviert
+                </div>
+
+                <p id="statusDescription" class="status-description">
+                    Es wurde noch kein Teamgeschlecht auf
+                    hockey.de erkannt.
+                </p>
+
+                <div class="color-list">
+                    <div class="color-item">
+                        <i class="color-swatch shirt"></i>
+                        <span>Trikot</span>
+                    </div>
+
+                    <div class="color-item">
+                        <i class="color-swatch bottom"></i>
+                        <span id="bottomLabel">Hose</span>
+                    </div>
+
+                    <div class="color-item">
+                        <i class="color-swatch socks"></i>
+                        <span>Stutzen</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="uniformPreview" class="uniform-preview" aria-label="Vorschau des Trikotsatzes"></div>
+        </section>
+
+        <div id="saveStatus" class="save-status" role="status" aria-live="polite"></div>
+
+        <footer class="page-footer">
+            <span>
+                © 2026 Lars Hansen · Alle Rechte vorbehalten.
+            </span>
+
+            <span>
+                Jegliche Veränderung untersagt. Weitergabe
+                nur mit ausdrücklicher Genehmigung durch den
+                Entwickler.
+            </span>
+        </footer>
+    </main>
+
+    <script src="options.js"></script>
+</body>
+
+</html>
